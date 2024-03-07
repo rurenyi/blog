@@ -1,7 +1,6 @@
 package handle
 
 import (
-	// "blog/database"
 	"blog/database"
 	"fmt"
 	"net/http"
