@@ -1,0 +1,6 @@
+blog:
+  dbname: blog
+  username: blogger
+  password: blogger123
+  host: localhost
+  port: 3306

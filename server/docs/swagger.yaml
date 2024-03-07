@@ -1,0 +1,180 @@
+definitions:
+  database.BLOGS:
+    properties:
+      content:
+        type: string
+      title:
+        type: string
+      uid:
+        description: BLOG_ID       int       `json:"blogID"`
+        type: integer
+    type: object
+  database.BlogPreview:
+    properties:
+      blogID:
+        type: integer
+      createTime:
+        type: string
+      title:
+        type: string
+    type: object
+  handle.loginUser:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Swag testing
+  title: 博客系统
+  version: "1.0"
+paths:
+  /blog/{uid}:
+    get:
+      consumes:
+      - application/json
+      description: '"根据用户id获得blog"'
+      parameters:
+      - description: 用户名
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取用户的所有blog成功
+          schema:
+            items:
+              $ref: '#/definitions/database.BlogPreview'
+            type: array
+        "400":
+          description: 获取用户的所有blog失败
+          schema:
+            type: string
+      summary: '"根据用户id获得blog"'
+      tags:
+      - blog
+  /blog/{uid}/{blogID}:
+    get:
+      consumes:
+      - application/json
+      description: '"获得所有blog"'
+      parameters:
+      - description: uid
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: blogID
+        in: path
+        name: blogID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取blog成功
+          schema:
+            items:
+              $ref: '#/definitions/database.BlogPreview'
+            type: array
+        "400":
+          description: 获取blog失败
+          schema:
+            type: string
+      summary: '"获得所有blog"'
+      tags:
+      - blog
+  /blog/create/{uid}:
+    post:
+      consumes:
+      - application/json
+      description: '"创建blog"'
+      parameters:
+      - description: UID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: blogContent
+        in: body
+        name: blogcontent
+        required: true
+        schema:
+          $ref: '#/definitions/database.BLOGS'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取blog成功
+          schema:
+            type: string
+        "400":
+          description: 获取blog失败
+          schema:
+            type: string
+      summary: '"创建blog"'
+      tags:
+      - blog
+  /blog/delete/{uid}/{blogid}:
+    delete:
+      consumes:
+      - application/json
+      description: '"删除blog"'
+      parameters:
+      - description: blogID
+        in: path
+        name: uid
+        required: true
+        type: string
+      - description: blogid
+        in: path
+        name: blogid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 获取blog成功
+          schema:
+            type: string
+        "400":
+          description: 获取blog失败
+          schema:
+            type: string
+      summary: '"删除blog"'
+      tags:
+      - blog
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: '"使用用户名和密码登录"'
+      parameters:
+      - description: 用户名
+        in: body
+        name: username
+        required: true
+        schema:
+          $ref: '#/definitions/handle.loginUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功更新用户信息
+          schema:
+            $ref: '#/definitions/handle.loginUser'
+        "400":
+          description: 更新用户信息失败
+          schema:
+            type: string
+      summary: '"用户登陆"'
+      tags:
+      - user
+swagger: "2.0"

@@ -1,0 +1,274 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Swag testing",
+        "title": "博客系统",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/blog/create/{uid}": {
+            "post": {
+                "description": "\"创建blog\"",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "blog"
+                ],
+                "summary": "\"创建blog\"",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "UID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "blogContent",
+                        "name": "blogcontent",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/database.BLOGS"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取blog成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "获取blog失败",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/delete/{uid}/{blogid}": {
+            "delete": {
+                "description": "\"删除blog\"",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "blog"
+                ],
+                "summary": "\"删除blog\"",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "blogID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "blogid",
+                        "name": "blogid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取blog成功",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "获取blog失败",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/{uid}": {
+            "get": {
+                "description": "\"根据用户id获得blog\"",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "blog"
+                ],
+                "summary": "\"根据用户id获得blog\"",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取用户的所有blog成功",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.BlogPreview"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "获取用户的所有blog失败",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/{uid}/{blogID}": {
+            "get": {
+                "description": "\"获得所有blog\"",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "blog"
+                ],
+                "summary": "\"获得所有blog\"",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "blogID",
+                        "name": "blogID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "获取blog成功",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/database.BlogPreview"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "获取blog失败",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "\"使用用户名和密码登录\"",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "\"用户登陆\"",
+                "parameters": [
+                    {
+                        "description": "用户名",
+                        "name": "username",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handle.loginUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功更新用户信息",
+                        "schema": {
+                            "$ref": "#/definitions/handle.loginUser"
+                        }
+                    },
+                    "400": {
+                        "description": "更新用户信息失败",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "database.BLOGS": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "BLOG_ID       int       `json:\"blogID\"`",
+                    "type": "integer"
+                }
+            }
+        },
+        "database.BlogPreview": {
+            "type": "object",
+            "properties": {
+                "blogID": {
+                    "type": "integer"
+                },
+                "createTime": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "handle.loginUser": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
