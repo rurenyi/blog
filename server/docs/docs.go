@@ -224,7 +224,7 @@ const docTemplate = `{
                     "200": {
                         "description": "成功更新用户信息",
                         "schema": {
-                            "$ref": "#/definitions/handle.loginUser"
+                            "$ref": "#/definitions/handle.response"
                         }
                     },
                     "400": {
@@ -272,6 +272,20 @@ const docTemplate = `{
             "properties": {
                 "password": {
                     "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "handle.response": {
+            "type": "object",
+            "properties": {
+                "auth_token": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "username": {
                     "type": "string"

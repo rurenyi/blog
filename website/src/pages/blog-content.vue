@@ -25,11 +25,7 @@ export default {
   },
 
   created(){
-    let blogContent = axios.create({
-        baseURL: this.$config.serverUrl,
-        timeout:1000
-    })
-    blogContent.get(`/blog/${this.uid}/${this.blogid}`)
+    this.baseaxios.get(`/blog/${this.uid}/${this.blogid}`)
         .then((response) => {
           this.title = response.data.title
           this.content = response.data.content

@@ -4,3 +4,7 @@ blog:
   password: blogger123
   host: localhost
   port: 3306
+redis:
+  host: "localhost:6379"
+  password: 
+  database: 0

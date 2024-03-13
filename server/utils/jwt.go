@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"strings"
+	"time"
 
 	"github.com/bytedance/sonic"
 )
@@ -15,6 +16,7 @@ var (
 		Algo: "HS256",
 		Type: "JWT",
 	}
+	Secret = CreatConfig("auth").GetString("secret")
 )
 
 type JwtHeader struct {
@@ -23,7 +25,7 @@ type JwtHeader struct {
 }
 
 type JwtPayload struct {
-	ID          string         `json:"jti"` //JWT ID用于标识该JWT
+	ID          int            `json:"jti"` //JWT ID用于标识该JWT
 	Issue       string         `json:"iss"` //发行人。比如微信
 	Audience    string         `json:"aud"` //受众人。比如王者荣耀
 	Subject     string         `json:"sub"` //主题
@@ -46,6 +48,9 @@ func GenerateJWT(header JwtHeader, payload JwtPayload, secret string) string {
 
 func VertifyJWT(jwt string, secret string) (*JwtHeader, *JwtPayload, error) {
 	parts := strings.Split(jwt, ".")
+	if len(parts) != 3{
+		return nil,nil,errors.New("token vertify failed")
+	}
 	header, payload, signature := parts[0], parts[1], parts[2]
 	h := hmac.New(sha256.New, []byte(secret))
 	h.Write([]byte(header + "." + payload))
@@ -69,5 +74,23 @@ func VertifyJWT(jwt string, secret string) (*JwtHeader, *JwtPayload, error) {
 	if err := sonic.Unmarshal(h2, &payload_info); err != nil {
 		return nil, nil, err
 	}
+	expirationTime := time.Unix(payload_info.Expiration, 0)
+	if time.Now().After(expirationTime) {
+		return nil,nil, err
+	}
 	return &header_info, &payload_info, nil
+}
+
+func GetToken(uid int) string {
+	var payload = JwtPayload{
+		ID:          uid,
+		Issue:       "Blog",
+		Audience:    "User",
+		Subject:     "Login",
+		IssueAt:     time.Now().Unix(),
+		Expiration:  time.Now().Add(7 * time.Hour).Unix(),
+		UserDefined: nil,
+	}
+	sessionToken := GenerateJWT(DefautHeader, payload, Secret)
+	return sessionToken
 }

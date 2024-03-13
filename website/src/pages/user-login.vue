@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import cryptoJs from "crypto-js";
 
 export default {
@@ -25,19 +24,17 @@ export default {
     methods: {
       login(){
         let hash = cryptoJs.MD5(this.Password).toString()
-        let UserLogin = axios.create({
-          baseURL: this.$config.serverUrl,
-          timeout: 1000
+        this.baseaxios.post("/login",{"username":this.UserName,"password":hash})
+          .then((responce) => {
+            localStorage.setItem("auth_token",responce.data.auth_token);
+            this.$router.push({
+              name:"blogList",
+              params:{"uid":responce.data.id}
+          })
         })
-        UserLogin.post("/login",{"username":this.UserName,"password":hash})
-          .then((responce) => {this.$router.push({
-            name:"blogList",
-            params:{"uid":responce.data.id}
-          })})
           .catch((response) => { console.log(response)})
       }
     },
-    
 }
 </script>
 

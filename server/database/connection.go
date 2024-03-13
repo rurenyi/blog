@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/go-redis/redis"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	ormlog "gorm.io/gorm/logger"
@@ -15,7 +16,9 @@ import (
 
 var (
 	db_mysql      *gorm.DB
+	db_redis     *redis.Client
 	db_mysql_once sync.Once
+	db_redis_once sync.Once
 	dblog         ormlog.Interface
 )
 
@@ -60,4 +63,34 @@ func GetdbConnection() *gorm.DB {
 		},
 	)
 	return db_mysql
+}
+
+// redis
+
+func createRedisConnect (addr string,password string,db int) *redis.Client {
+	cli := redis.NewClient(
+		&redis.Options{
+			Addr: addr,
+			Password: password,
+			DB: db,
+	})
+	if err := cli.Ping().Err(); err != nil {
+		utils.LogRus.Panicf("redis %s 连接失败",addr)
+	}else {
+		utils.LogRus.Info("redis连接成功")
+	}
+	return cli
+}
+
+func GetRedisConnection () *redis.Client{
+	db_redis_once.Do(func() {
+		if db_redis == nil{
+			dbviper := utils.CreatConfig("database")
+			host := dbviper.GetString("redis.host")
+			password := ""
+			db := dbviper.GetInt("redis.database")
+			db_redis = createRedisConnect(host, password, db)
+		}
+	})
+	return db_redis
 }

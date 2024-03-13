@@ -25,6 +25,15 @@ definitions:
       username:
         type: string
     type: object
+  handle.response:
+    properties:
+      auth_token:
+        type: string
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
 info:
   contact: {}
   description: Swag testing
@@ -169,7 +178,7 @@ paths:
         "200":
           description: 成功更新用户信息
           schema:
-            $ref: '#/definitions/handle.loginUser'
+            $ref: '#/definitions/handle.response'
         "400":
           description: 更新用户信息失败
           schema:

@@ -14,7 +14,7 @@ func TestJWT(t *testing.T) {
 		Type: "JWT",
 	}
 	var payload = utils.JwtPayload{
-		ID:          "123",
+		ID:          123,
 		Issue:       "微信",
 		Audience:    "群众",
 		Subject:     "没啥事",
@@ -31,4 +31,8 @@ func TestJWT(t *testing.T) {
 	fmt.Printf("decode_header: %v\n", decode_header)
 	fmt.Printf("decode_payload: %v\n", decode_payload)
 	fmt.Printf("err: %v\n", err)
+}
+
+func TestSecret(t *testing.T) {
+	fmt.Printf("utils.Secret: %v\n", utils.Secret)
 }
