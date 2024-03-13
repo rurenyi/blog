@@ -25,3 +25,8 @@ func TestDBConnection2t(*testing.T) {
 	utils.InitLog("log")
 	database.GetdbConnection()
 }
+
+func TestDBConnection3(*testing.T) {
+	utils.InitLog("log")
+	database.GetRedisConnection()
+}

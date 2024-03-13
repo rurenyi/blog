@@ -1,3 +1,3 @@
 export default {
-    baseUrl: 'http://localhost:54321'
-  };
+  serverUrl: 'http://localhost:12345'
+};

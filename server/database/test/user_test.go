@@ -9,7 +9,7 @@ import (
 
 func TestCreateNewUser(t *testing.T) {
 	utils.InitLog("log")
-	database.CreateNewUser("aaaa","123456")
+	database.CreateNewUser("ccc","123456")
 }
 
 func TestDeleteUserByID(t *testing.T) {

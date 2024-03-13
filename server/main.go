@@ -13,6 +13,8 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+
+
 //	@title			博客系统
 //	@version		1.0
 //	@description	Swag testing
@@ -20,6 +22,8 @@ func main() {
 	utils.InitLog("log")
 	engine := gin.Default()
 	engine.Use(midware.Cors())
+	engine.Use(midware.AuthToken())
+
 	engine.GET("/swagger/*all", ginSwagger.WrapHandler(ginSwaggerFiles.Handler))
 	engine.POST("/login",handle.Login)
 	engine.GET("/blog/:uid",handle.GetAllBlogByName)

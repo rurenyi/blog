@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   name: 'WebsiteBlogCreate',
@@ -27,11 +26,7 @@ export default {
   },
   methods: {
     Save(){
-        let createblog = axios.create({
-            baseURL:this.$config.serverUrl,
-            timeout:1000
-        })
-        createblog.post(`/blog/create/${this.uid}`,{
+      this.baseaxios.post(`/blog/create/${this.uid}`,{
             "uid":this.uid,
             "content":this.content,
             "title":this.title,

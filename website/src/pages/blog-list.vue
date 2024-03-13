@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
   name: 'WebsiteBlogList',
   props:["uid"],
@@ -32,10 +31,7 @@ export default {
   },
 
   created(){
-    let blogContent = axios.create({
-        baseURL: this.$config.serverUrl
-    })
-    blogContent.get(`/blog/${this.uid}`)
+    this.baseaxios.get(`/blog/${this.uid}`)
         .then((response) => {response.data.map((item) => {this.blogs.push(item)})})
         .catch((response) => {console.log(response);})
   },
